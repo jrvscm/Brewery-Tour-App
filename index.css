@@ -11,3 +11,13 @@
 section {
 	padding: 100px;
 }
+
+#map-section {
+	height: 500px;
+	width: 100%;
+}
+
+#search-section {
+	width: 100%;
+	border-top: 1px solid black;
+}
