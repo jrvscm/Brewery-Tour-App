@@ -4,16 +4,44 @@
 	box-sizing: border-box;
 }
 
+html,
+body {
+	height: 100%;
+	width: 100%;
+}
+
 .hidden {
 	display:none;
 }
 
+.center {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #ccc;
+	border-radius: 3px;
+
+}
+
+.form-container {
+	position: fixed;
+	border: 1px solid black;
+	height: 100px;
+	width: 200px;
+	text-align: center;
+}
+
 section {
-	padding: 100px;
+	padding: 50px;
+	height: 100%;
+	width: 100%;
 }
 
 #map-section {
-	height: 500px;
+	height: 600px;
 	width: 100%;
 }
 

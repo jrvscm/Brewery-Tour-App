@@ -9,7 +9,7 @@
 <body>
 	<main role="main">
 
-		<section id="map-section">
+		<section id="map-section" class="hidden">
 			<div class="js-map">
 	
 
@@ -17,11 +17,13 @@
 		</section>
 
 		<section id="search-section">
-			<form action="#">
-				<input type="text" name="search" aria-labelledby="search-button" placeholder="Zip Code">
-				<button id="search-button" type="submit">Go!</button>
-			</form>
-
+			<div class="form-container center">
+				<h2>Brewery Tour</h2>
+				<form action="#">
+					<input id='query' type="text" name="search" aria-labelledby="search-button" placeholder="Enter City">
+					<button id="search-button" type="submit">Go!</button>
+				</form>
+			</div>
 		</section>
 
 		<section id="tour-section">
