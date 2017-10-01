@@ -27,25 +27,42 @@ body {
 }
 
 .form-container {
-	position: fixed;
-	border: 1px solid black;
-	height: 100px;
-	width: 200px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
 	text-align: center;
+	z-index: 2;
+	background-color:dodgerBlue;
+	padding-top:20%;
+}
+
+h1 {
+	font-size: 36px;
+	padding: 10px;
 }
 
 section {
-	padding: 50px;
 	height: 100%;
 	width: 100%;
 }
 
 #map-section {
-	height: 600px;
+	height: 100%;
 	width: 100%;
+	position: absolute;
+	z-index: 1;
+	background-color:transparent;
 }
 
 #search-section {
 	width: 100%;
-	border-top: 1px solid black;
+	z-index: 999;
+	background-color:dodgerBlue;
 }
+
+#map {
+	height:100%;
+	width:90%;
+	float:right;
+}
+
