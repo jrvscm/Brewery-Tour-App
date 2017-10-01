@@ -16,7 +16,7 @@ function getBreweryInfo(query) {
 		dataType: 'json',
 		data: {
 			locality: `${query}`,
-			key: `130345cc1aee53c8eea5de3039902cc1`
+			key: config.BREWERYDB_KEY
 		},
 		success: function(data) {
 			console.log(data);
