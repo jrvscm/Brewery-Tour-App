@@ -1,15 +1,5 @@
-const markers = [];
-
-function watchSubmit() {
-	$('.form-container').off().on('click', '#search-button', event=> {
-		event.preventDefault();
-		$('.form-container').removeClass('center').css('height', '100%').css('width', '250px').css('padding-top', '2%');
-		const query = $('#query').val();
-		getBreweryInfo(query);
-		$('#query').val('');
-	});
-}
-
+let markers = [];
+let map;
 
 function getBreweryInfo(query) {
 	$.ajax({
@@ -21,28 +11,29 @@ function getBreweryInfo(query) {
 			key: config.BREWERYDB_KEY
 		},
 		success: function(data) {
-				console.log(data);
-				renderBreweryVars(data);
-			}
-		});
+			console.log(data);
+			renderBreweryVars(data, query);
 		}
-
-function renderBreweryVars(data) {
-	const breweryInfo = data.data.map((data, index) => {
-	
-	const breweryVals = {
-	breweryName: data.brewery.name,
-	breweryLat: data.latitude,
-	breweryLon: data.longitude
-	}
-	markers.push(breweryVals);
 	});
-	 renderMarkers();
+	console.log('getBreweryInfo() ran')
 }
 
+function renderBreweryVars(data ,query) {
+	const breweryInfo = data.data.map((data, index) => {
+		const breweryVals = {
+			breweryName: data.brewery.name,
+			breweryLat: data.latitude,
+			breweryLon: data.longitude
+		}
+		markers.push(breweryVals);
+	});
+	var geocoder = new google.maps.Geocoder();
+	geocodeAddress(geocoder, map, query);
+	console.log('renderBreweryVars() ran')
+}
 
 function getMapData() {
-$.ajax({
+	$.ajax({
 		method: "GET",
 		url: `https://maps.googleapis.com/maps/api/js?`,
 		dataType: 'jsonp',
@@ -51,68 +42,62 @@ $.ajax({
 		},
 		success: function(data) {
 			console.log('success');
-			initMap();
-	}
-});
+			initMap(data);
+		}
+	});
+	console.log('getMapData() ran')
 }
 
-
-function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 14,
-        center: {lat:44.2911111,lng:-105.5016667}
-        });
-        var geocoder = new google.maps.Geocoder();
-        document.getElementById('search-button').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
-        console.log('initMap() ran')
-      }
-
-function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('query').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === 'OK') {
-          resultsMap.setCenter(results[0].geometry.location);
-          var marker = new google.maps.Marker({
-          map: resultsMap,
-          position: results[0].geometry.location
-          });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-
-
-        console.log('geoCodeAddress ran')
-      }
-
-function renderMarkers() {
-	markers.map((data, index) => {
-		console.log(markers[index].breweryLat, markers[index].breweryLon)
-		var myLatLng = new google.maps.LatLng(markers[index].breweryLat, markers[index].breweryLon);
-		
-		var mapOptions = {
-		zoom:15,
-		center: myLatLng
+function initMap(data) {
+		map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 14,
+		center: {
+			lat: 44.2911111,
+			lng: -105.5016667
 		}
-		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-		var breweryName = `${markers[index].breweryName}`;
-
-		console.log(myLatLng)
-		console.log(breweryName)
-		var marker = new google.maps.Marker({
-    		position: myLatLng,
-    		title:`${breweryName}`
-		});
-		marker.setMap(map);
 	});
 }
 
-
-function handleTour() {
-watchSubmit();
-getMapData();
+function geocodeAddress(geocoder, resultsMap, address) {
+	console.log(markers)
+	console.log(address)
+	geocoder.geocode({
+		'address': address
+	}, function(results, status) {
+		console.log(results)
+		if (status === 'OK') {
+			resultsMap.setCenter(results[0].geometry.location);
+			markers.map((data, index) => {
+				var marker = new google.maps.Marker({
+					map: resultsMap,
+					position: {
+						lat: markers[index].breweryLat,
+						lng: markers[index].breweryLon
+					},
+					title: `${markers[index].breweryName}`
+				});
+			});
+		} else {
+			alert('Geocode was not successful for the following reason: ' + status);
+		}
+	});
+	console.log('geoCodeAddress ran')
 }
 
+function watchSubmit() {
+	$('.form-container').off().on('click', '#search-button', event => {
+		event.preventDefault();
+		markers = [];
+		$('.form-container').removeClass('center').css('height', '100%').css('width', '250px').css('padding-top', '2%');
+		const query = $('#query').val();
+		console.log(query)
+		getBreweryInfo(query);
+		$('#query').val('');
+	});
+}
+
+function handleTour() {
+	watchSubmit();
+	getMapData();
+}
 $(handleTour);
