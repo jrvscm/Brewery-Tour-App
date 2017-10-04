@@ -15,7 +15,6 @@ function getBreweryInfo(query) {
 			renderBreweryVars(data, query);
 		}
 	});
-	console.log('getBreweryInfo() ran')
 }
 
 function renderBreweryVars(data ,query) {
@@ -23,13 +22,12 @@ function renderBreweryVars(data ,query) {
 		const breweryVals = {
 			breweryName: data.brewery.name,
 			breweryLat: data.latitude,
-			breweryLon: data.longitude
+			breweryLon: data.longitude,
 		}
 		markers.push(breweryVals);
 	});
 	var geocoder = new google.maps.Geocoder();
 	geocodeAddress(geocoder, map, query);
-	console.log('renderBreweryVars() ran')
 }
 
 function getMapData() {
@@ -41,7 +39,6 @@ function getMapData() {
 			key: config.GOOGLEMAPS_KEY
 		},
 		success: function(data) {
-			console.log('success');
 			initMap(data);
 		}
 	});
@@ -59,38 +56,40 @@ function initMap(data) {
 }
 
 function geocodeAddress(geocoder, resultsMap, address) {
-	console.log(markers)
-	console.log(address)
 	geocoder.geocode({
 		'address': address
 	}, function(results, status) {
-		console.log(results)
 		if (status === 'OK') {
 			resultsMap.setCenter(results[0].geometry.location);
 			markers.map((data, index) => {
-				var marker = new google.maps.Marker({
+			setTimeout(function() {
+				let marker = new google.maps.Marker({
 					map: resultsMap,
 					position: {
 						lat: markers[index].breweryLat,
 						lng: markers[index].breweryLon
 					},
-					title: `${markers[index].breweryName}`
+					title: `${markers[index].breweryName}`,
+					animation: google.maps.Animation.DROP
 				});
+				$('.form-container').on('click', '#search-button', event => {
+					marker.setMap(null);
+				});
+			}, index * 200);
 			});
 		} else {
 			alert('Geocode was not successful for the following reason: ' + status);
 		}
 	});
-	console.log('geoCodeAddress ran')
 }
 
+
 function watchSubmit() {
-	$('.form-container').off().on('click', '#search-button', event => {
+	$('.form-container').on('click', '#search-button', event => {
 		event.preventDefault();
-		markers = [];
 		$('.form-container').removeClass('center').css('height', '100%').css('width', '250px').css('padding-top', '2%');
 		const query = $('#query').val();
-		console.log(query)
+		markers = [];
 		getBreweryInfo(query);
 		$('#query').val('');
 	});
