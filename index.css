@@ -56,8 +56,25 @@ section {
 
 #search-section {
 	width: 100%;
-	z-index: 999;
+	height: 100%;
+	z-index: 998;
 	background-color:dodgerBlue;
+}
+
+.tour {
+	padding: 50px 15px 15px 15px;
+}
+
+.tour-item {
+	position: relative;
+	font-size: 16px;
+	border: 1px solid white;
+	border-radius: 5px;
+	color:white;
+	width: 220px;
+	margin: 10px auto;
+	min-height: 50px;
+	vertical-align: middle;
 }
 
 #map {
