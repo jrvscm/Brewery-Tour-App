@@ -13,13 +13,15 @@ function getBreweryInfo(query) {
             key: config.BREWERYDB_KEY
         },
         success: function(data) {
-            console.log(data);
-            renderBreweryVars(data, query);
-        }
+            	renderBreweryVars(data, query);
+        	}
     });
 }
 
 function renderBreweryVars(data, query) {
+	if(data.data == undefined) {
+		alert(`Sorry, nothing was found for that location!`)
+	} else {
     const breweryInfo = data.data.map((data, index) => {
         const breweryVals = {
             breweryName: data.brewery.name,
@@ -33,6 +35,7 @@ function renderBreweryVars(data, query) {
     });
     var geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, map, query);
+	}
 }
 
 function getMapData() {
@@ -52,11 +55,7 @@ function getMapData() {
 
 function initMap(data) {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 14,
-        center: {
-            lat: 44.2911111,
-            lng: -105.5016667
-        }
+        zoom: 14,     
     });
 }
 
@@ -69,10 +68,13 @@ function geocodeAddress(geocoder, resultsMap, address) {
             markers.map((data, index) => {
                 renderContentString(index, resultsMap);
             });
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+        } else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) { 
+        	wait = true;
+        		setTimeout("wait = true", 2000); 
+        	} else {
+            	alert('Geocode was not successful for the following reason: ' + status);
         }
-    });
+   	});
 }
 
 function renderContentString(index, resultsMap) {
@@ -150,8 +152,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 	}, function(response, status) {
 		if(status ==='OK') {
 			directionsDisplay.setDirections(response);
-		} else {
-			window.alert('Directions request failed due to' + status);
+		} else if (status == google.maps.Directions.OVER_QUERY_LIMIT) { 
+        	wait = true;
+        	setTimeout("wait = true", 2000);
+        } else {
+			window.alert('Directions request failed due to: ' + status);
 		}
 	});
 }
@@ -177,7 +182,8 @@ function clearMap(marker) {
 function watchSubmit() {
     $('.form-container').on('click', '#search-button', event => {
         event.preventDefault();
-        $('.form-container').removeClass('center').css('height', '100%').css('width', '250px').css('padding-top', '2%');
+        $('.form-container').removeClass('center');
+        $('.route').removeClass('hidden');
         const query = $('#query').val();
         markers = [];
         routeArr = [];

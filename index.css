@@ -14,6 +14,16 @@ body {
 	display:none;
 }
 
+.form-container {
+	position: absolute;
+	height: 100%;
+	width: 300px;
+	padding-top: 2%;
+	z-index: 2;
+	text-align: center;
+	background-color: dodgerBlue;
+}
+
 .center {
 	position: absolute;
 	margin: auto;
@@ -21,24 +31,21 @@ body {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: #ccc;
+	background-color: dodgerBlue;
 	border-radius: 3px;
-
-}
-
-.form-container {
-	position: absolute;
 	height: 100%;
 	width: 100%;
-	text-align: center;
-	z-index: 2;
-	background-color:dodgerBlue;
-	padding-top:20%;
+	padding-top: 20%;
+
 }
 
 h1 {
 	font-size: 36px;
 	padding: 10px;
+}
+
+h2 {
+	font-size: 20px;
 }
 
 section {
@@ -66,12 +73,10 @@ section {
 }
 
 .tour-item {
-	position: relative;
-	font-size: 16px;
 	border: 1px solid white;
 	border-radius: 5px;
 	color:white;
-	width: 220px;
+	width: 250px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 10px;
@@ -84,3 +89,50 @@ section {
 	float:right;
 }
 
+@media screen and (max-device-width: 375px) and (max-device-height: 667px) {
+
+.form-container {
+	position: relative;
+	height:auto;
+	width: 100%;
+	text-align: center;
+	bottom:0;
+	left:0;
+	right:0;
+	z-index:2;
+	background-color:dodgerBlue;
+}
+
+.center {
+	position: relative;
+	margin: auto;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: dodgerBlue;
+	border-radius: 3px;
+	height: 100%;
+	width: 100%;
+	padding-top: 55%;
+
+}
+
+#map {
+	position: fixed;
+	height:100%;
+	width:100%;
+	float:none;
+	bottom:0;
+	right:0;
+	left:0;
+}
+
+.tour {
+	position: relative;
+	height: 100%;
+	background: dodgerBlue;
+	overflow: hidden;
+}
+
+}
