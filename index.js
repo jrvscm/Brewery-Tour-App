@@ -1,3 +1,4 @@
+let routeArr = [];
 let tour = [];
 let markers = [];
 let map;
@@ -108,11 +109,23 @@ function renderMarker(infowindow, index, resultsMap) {
 function watchMarkerClick(marker, infowindow, resultsMap) {
 	marker.addListener('click', function() {
 		infowindow.open(resultsMap, marker);
-		let breweryTitle = `${marker.title}`;			
+		let breweryTitle = `${marker.title}`;	
+		let tourLatLng = `${marker.position}`;	
 			if(tour.indexOf(breweryTitle) == -1) {
 				tour.push(breweryTitle);
+				tour.push(tourLatLng);
 				renderTourItem(breweryTitle);
 			}
+	});
+	getRoute();
+}
+
+function getRoute() {
+	$('.form-container').on('click','.route', event => {
+		for(i=1; i<tour.length; i+=2) {
+			routeArr.push(tour[i]);
+		}
+		console.log(routeArr)
 	});
 }
 
