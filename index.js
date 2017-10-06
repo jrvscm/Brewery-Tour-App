@@ -137,6 +137,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 	for(let i=0; i<routeArr.length; i++) {
 		waypts.push({
 			location: routeArr[i],
+			stopover: false
 		});
 	}
 
