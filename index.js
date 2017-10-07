@@ -148,7 +148,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 		destination: routeArr[routeArr.length -1],
 		waypoints: waypts,
 		optimizeWaypoints: true,
-		travelMode:'WALKING',
+		travelMode:'BICYCLING',
 	}, function(response, status) {
 		if(status ==='OK') {
 			directionsDisplay.setDirections(response);
