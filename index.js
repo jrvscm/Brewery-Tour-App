@@ -110,6 +110,7 @@ function renderMarker(infowindow, index, resultsMap) {
 
 function watchMarkerClick(marker, infowindow, resultsMap) {
 	marker.addListener('click', function() {
+		 $('.route').removeClass('hidden');
 		infowindow.open(resultsMap, marker);
 		let breweryTitle = `${marker.title}`;	
 		let tourLatLng = `${marker.position}`;
@@ -183,7 +184,8 @@ function watchSubmit() {
     $('.form-container').on('click', '#search-button', event => {
         event.preventDefault();
         $('.form-container').removeClass('center');
-        $('.route').removeClass('hidden');
+        $('.form-container p').removeClass('hidden');
+        $('h1').css('font-size', '3rem');
         const query = $('#query').val();
         markers = [];
         routeArr = [];

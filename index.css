@@ -8,8 +8,9 @@ html,
 body {
 	height: 100%;
 	width: 100%;
-	background-color:#4D95C4;
-	color:LightGray;
+	background-color:rgba(106,90,205,.8);
+	color:white;
+	font-family: 'Oswald', sans-serif;
 }
 
 .hidden {
@@ -19,11 +20,11 @@ body {
 .form-container {
 	position: absolute;
 	height: 100%;
-	width: 300px;
+	width: 400px;
 	padding-top: 2%;
 	z-index: 2;
 	text-align: center;
-	background-color: #4D95C4;
+	background-color: rgba(106,90,205,.9);
 }
 
 .center {
@@ -33,38 +34,71 @@ body {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: #4D95C4;
+	background-color: rgb(106,90,205);
 	border-radius: 3px;
 	height: 100%;
 	width: 100%;
-	padding-top: 20%;
+	padding-top: 15%;
 
 }
 
-button {
-	background-color: #FFB65B;
-	margin: 5px;
-	color: #4D95C4;
+.button {
+	cursor: pointer;
+	color:white;
+	background-color: transparent;
+	border: 2px solid white;
+	border-radius: 0px;
+	margin: 0;
+	transform: all .2s ease;
+}
+
+.button:focus {
+	outline-color: red;
+}
+
+.route {
+	border-bottom: 1px solid white;
+}
+
+.button:hover {
+	color: rgba(0,0,0,.5);
 }
 
 input {
+	color:white;
 	display: inline-block;
     line-height: 1.25;
     white-space: nowrap;
     vertical-align: middle;
-    border: 1px solid transparent;
+    border:2px solid white;
     padding: .5rem 1rem;
     font-size: 1rem;
-    border-radius: .25rem;
+    background-color: transparent;
+}
+
+input::placeholder {
+	color:white;
+	transition: all .2s ease;
+}
+
+input:hover::placeholder {
+	color: rgba(0,0,0,.5);
+}
+
+input:focus::placeholder {
+	color:rgba(0,0,0,.5);
 }
 
 h1 {
-	font-size: 36px;
-	padding: 10px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 6rem;
+	padding: .5rem 1rem;
+	color: white;
 }
 
-h2 {
-	font-size: 20px;
+div.tour-item h2 {
+	font-size: 24px;
+	margin-bottom: 0;
 }
 
 section {
@@ -77,28 +111,33 @@ section {
 	width: 100%;
 	position: absolute;
 	z-index: 1;
-	background-color:#4D95C4;
+	background-color: rgba(106,90,205,.8);
 }
 
 #search-section {
 	width: 100%;
 	height: 100%;
-	background-color:#4D95C4;
+	background-color: rgba(106,90,205,.8);
 }
 
 .tour {
-	padding: 50px 15px 15px 15px;
+	padding: .5rem 1rem;
 }
 
-.tour-item {
-	border: 1px solid white;
-	border-radius: 5px;
+button.route {
+	margin-left: 50%;
+	border:none;
+}
+
+div.tour-item {
 	color:white;
-	width: 250px;
+	width: 350px;
+	border-bottom: 1px solid white;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 10px;
-	min-height: 50px;
+	padding-top: 1rem;
+	padding-bottom: .5rem;
+	text-align: left;
 }
 
 #map {
@@ -107,8 +146,29 @@ section {
 	float:right;
 }
 
+#map > div > div > div:nth-child(10) {
+	margin-left: 25% !important;
+}
+
+#map > div > div > div:nth-child(1) > div:nth-child(4) > div:nth-child(4) > div > div.gm-style-iw > div:nth-child(1) > div > div > p {
+	color:#4D95C4;
+	font-size: 14px;
+	font-weight: bold !important;
+}
+
 @media screen and (max-device-width: 375px) and (max-device-height: 667px) {
 
+html,
+body {
+	background-color:rgb(106,90,205) !important;
+}
+
+h1 {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 3rem !important;
+	padding: .5rem 1rem;
+	color: white;
+}
 .form-container {
 	position: absolute;
 	height:30%;
@@ -117,7 +177,8 @@ section {
 	bottom:0;
 	left:0;
 	right:0;
-	background-color:#4D95C4;
+	background-color:rgb(106,90,205);
+	padding-top:0;
 }
 
 .center {
@@ -127,25 +188,30 @@ section {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: #4D95C4;
 	border-radius: 3px;
 	height: 100%;
 	width: 100%;
 	padding-top: 55%;
+	background-color:rgb(106,90,205);
 
 }
 
 #map {
 	position: static;
-	height:60%;
+	height:70%;
 	width:100%;
 	float:none;
+	background-color:rgb(106,90,205);
+}
+
+#map > div > div > div:nth-child(10) {
+	margin-left: 25% !important;
 }
 
 .tour {
 	position: static;
-	padding: 15px;
-	background: #4D95C4;
+	padding: 1rem;
+	background-color:rgb(106,90,205);
 }
 
 }

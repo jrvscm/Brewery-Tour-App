@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Oswald" rel="stylesheet">
     <link href="index.css" rel="stylesheet" type="text/css"/>
 	<title>Brewery Tour</title>
 </head>
@@ -19,17 +21,18 @@
 
 		<section id="search-section">
 			<div class="form-container center">
-				<h1>Brewery Tour</h1>
+				<h1 role='banner'>Brewery Tour</h1>
 				<form action="#">
 					<input id='query' class="userinput" type="text" name="search" aria-labelledby="search-button" placeholder="Enter City" required>
-					<button id="search-button" class="btn btn-submit" type="submit"><strong><em>Go!</em></strong></button>
+					<button id="search-button" class="btn btn-submit button" type="submit"><strong><em>Go!</em></strong></button>
 				</form>
-				
+				<p class="hidden">(Click some markers to add stops!)</p>
+
 				<div class="tour">
 				
 
 				</div>
-				<button class="route hidden btn btn-submit" role="button">Find a Route</button>
+				<button class="route hidden btn btn-submit button" role="button"><strong><em>Find a Route <i class="fa fa-search" aria-hidden="true"></i></button>
 			</div>
 		</section>
 	</main>
