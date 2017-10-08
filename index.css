@@ -52,11 +52,12 @@ html, body {
 	margin: 0;
 	transform: all .2s ease;
 }
-.button:focus {
-	outline-color: red;
-}
 .route {
 	border-bottom: 1px solid white;
+	cursor: pointer;
+}
+#search-button {
+	cursor:pointer;
 }
 .button:hover {
 	color: rgba(0, 0, 0, .5);
