@@ -182,7 +182,7 @@ function clearMap(marker) {
 }
 
 function watchSubmit() {
-	$('.form-container').on('click', '#search-button', event => {
+	$('.form-container').on('click touch', '#search-button', event => {
 		event.preventDefault();
 		let query = $('#query').val();
 		if (query.length == 0) {
