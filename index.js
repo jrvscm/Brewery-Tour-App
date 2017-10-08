@@ -50,7 +50,6 @@ function getMapData() {
 			initMap(data);
 		}
 	});
-	console.log('getMapData() ran')
 }
 
 function initMap(data) {
@@ -59,9 +58,9 @@ function initMap(data) {
 	});
 }
 
-function geocodeAddress(geocoder, resultsMap, address) {
+function geocodeAddress(geocoder, resultsMap, query) {
 	geocoder.geocode({
-		'address': address
+		'address': query
 	}, function(results, status) {
 		if (status === 'OK') {
 			resultsMap.setCenter(results[0].geometry.location);
@@ -185,8 +184,8 @@ function clearMap(marker) {
 function watchSubmit() {
 	$('.form-container').on('click', '#search-button', event => {
 		event.preventDefault();
-		const query = $('#query').val();
-		if (query.length === 0) {
+		let query = $('#query').val();
+		if (query.length == 0) {
 			alert('Please enter a valid city name.');
 			return;
 		}
