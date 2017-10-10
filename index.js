@@ -176,10 +176,14 @@ function insertTourItem(tourItem) {
 }
 
 function removeTourItem(tourItem) {
-	$('.close-button').click(function() {
+	console.log(routeArr)
+	$('.close-button').on('click', function() {
+		let idx = $('.close-button').index(this);
+		for(i=0; i<routeArr.length; i++) {
+		routeArr = routeArr[idx].slice();	
+		} console.log(routeArr);
 		$(this).closest('.tour-item').remove();
 	});
-
 };
 
 function clearMap(marker) {
