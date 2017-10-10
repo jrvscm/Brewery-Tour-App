@@ -177,14 +177,13 @@ function insertTourItem(tourItem) {
 
 function removeTourItem(tourItem) {
 	console.log(routeArr)
-	$('.close-button').on('click', function() {
-		let idx = $('.close-button').index(this);
-		for(i=0; i<routeArr.length; i++) {
-		routeArr = routeArr[idx].slice();	
-		} console.log(routeArr);
-		$(this).closest('.tour-item').remove();
+	let indArr = [];
+	$('.tour').on('click', '.close-button', function() {
+	let index = $(this).index('.close-button');
+	indArr.push(index);
 	});
-};
+	for(indArr)
+}
 
 function clearMap(marker) {
 	$('.form-container').on('click', '#search-button', event => {
