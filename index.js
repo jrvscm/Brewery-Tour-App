@@ -120,7 +120,7 @@ function watchMarkerClick(marker, infowindow, resultsMap) {
 		let tourLatLng = `${marker.position}`;
 		tourLatLng = tourLatLng.split('').slice(0 + 1, tourLatLng.length - 1).join('');
 		if (tour.indexOf(breweryTitle) == -1) {
-			tour.push(breweryTitle, tourLatLng);
+			tour.push(breweryTitle);
 			routeArr.push(tourLatLng);
 			renderTourItem(breweryTitle);
 		}
@@ -212,6 +212,7 @@ function watchSubmit() {
 		routeArr = [];
 		tour = [];
 		waypts = []
+		console.log('resets ran')
 		getBreweryInfo(query);
 		$('.tour').empty();
 		$('#query').val('');
