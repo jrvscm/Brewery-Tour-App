@@ -119,9 +119,8 @@ function watchMarkerClick(marker, infowindow, resultsMap) {
 		let breweryTitle = `${marker.name}`;
 		let tourLatLng = `${marker.position}`;
 		tourLatLng = tourLatLng.split('').slice(0 + 1, tourLatLng.length - 1).join('');
-		console.log(tourLatLng)
 		if (tour.indexOf(breweryTitle) == -1) {
-			tour.push(breweryTitle);
+			tour.push(breweryTitle, tourLatLng);
 			routeArr.push(tourLatLng);
 			renderTourItem(breweryTitle);
 		}
@@ -166,14 +165,22 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
 function renderTourItem(breweryTitle) {
 	let tourItem = `<div class="tour-item">
-						<h2>${breweryTitle}</h2>
+						<h2>${breweryTitle}<button class="close-button button"><i class="fa fa-times" aria-hidden="true"></i></button></h2>
 					</div>`;
 	insertTourItem(tourItem);
 }
 
 function insertTourItem(tourItem) {
 	$('.tour').append(tourItem);
+	removeTourItem(tourItem);
 }
+
+function removeTourItem(tourItem) {
+	$('.close-button').click(function() {
+		$(this).closest('.tour-item').remove();
+	});
+
+};
 
 function clearMap(marker) {
 	$('.form-container').on('click', '#search-button', event => {

@@ -52,11 +52,21 @@ html, body {
 	margin: 0;
 	transform: all .2s ease;
 }
-.button:focus {
-	outline-color: red;
+button.close-button {
+	border:none;
+	float:right;
+	cursor: pointer;
+}
+button.tour-button {
+	color:#4D95C4;
+	cursor:pointer;
 }
 .route {
 	border-bottom: 1px solid white;
+	cursor: pointer;
+}
+#search-button {
+	cursor:pointer;
 }
 .button:hover {
 	color: rgba(0, 0, 0, .5);
@@ -188,6 +198,108 @@ div.tour-item {
 	.tour {
 		position: static;
 		padding: 1rem;
+		background-color: transparent;
+	}
+}
+
+@media screen and (max-device-width: 414px) and (max-device-height: 736px) {
+	html, body {
+		background-color: rgb(106, 90, 205) !important;
+	}
+	h1 {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 3rem !important;
+		padding: .5rem 1rem;
+		color: white;
+	}
+	.form-container {
+		position: absolute;
+		height: 30%;
+		width: 100%;
+		text-align: center;
+		bottom: 0;
+		left: 0;
+		right: 0;
 		background-color: rgb(106, 90, 205);
+		padding-top: 0;
+	}
+	.center {
+		position: absolute;
+		margin: auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-radius: 3px;
+		height: 100%;
+		width: 100%;
+		padding-top: 55%;
+		background-color: rgb(106, 90, 205);
+	}
+	#map {
+		position: static;
+		height: 70%;
+		width: 100%;
+		float: none;
+		background-color: rgb(106, 90, 205);
+	}
+	#map>div>div>div:nth-child(10) {
+		margin-left: 25% !important;
+	}
+	.tour {
+		position: static;
+		padding: 1rem;
+		background-color: transparent;
+	}
+}
+
+@media screen and (max-device-width: 768px) and (max-device-height: 1024px) {
+	html, body {
+		background-color: rgb(106, 90, 205) !important;
+	}
+	h1 {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 3rem !important;
+		padding: .5rem 1rem;
+		color: white;
+	}
+	.form-container {
+		position: absolute;
+		height: 30%;
+		width: 100%;
+		text-align: center;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: rgb(106, 90, 205);
+		padding-top: 0;
+	}
+	.center {
+		position: absolute;
+		margin: auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-radius: 3px;
+		height: 100%;
+		width: 100%;
+		padding-top: 55%;
+		background-color: rgb(106, 90, 205);
+	}
+	#map {
+		position: static;
+		height: 70%;
+		width: 100%;
+		float: none;
+		background-color: rgb(106, 90, 205);
+	}
+	#map>div>div>div:nth-child(10) {
+		margin-left: 25% !important;
+	}
+	.tour {
+		position: static;
+		padding: 1rem;
+		background-color: transparent;
 	}
 }
