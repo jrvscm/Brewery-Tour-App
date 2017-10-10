@@ -172,17 +172,23 @@ function renderTourItem(breweryTitle) {
 
 function insertTourItem(tourItem) {
 	$('.tour').append(tourItem);
-	removeTourItem(tourItem);
+	removeTourItemFromRoute();
 }
 
-function removeTourItem(tourItem) {
-	console.log(routeArr)
-	let indArr = [];
-	$('.tour').on('click', '.close-button', function() {
-	let index = $(this).index('.close-button');
-	indArr.push(index);
+function removeTourItemFromRoute() {
+	$('.close-button').off().on('click', function() {
+		console.log(routeArr);
+	remInd = $('.close-button').index($(this));
+	routeArr.splice(remInd, 1);
 	});
-	for(indArr)
+
+	removeTourItemFromTour();
+}
+
+function removeTourItemFromTour() {
+	$('.close-button').on('click', function() {
+		$(this).closest('.tour-item').remove();
+	});
 }
 
 function clearMap(marker) {
