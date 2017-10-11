@@ -191,7 +191,6 @@ function insertTourItem(tourItem) {
 function removeTourItemFromRoute() {
 	//uses the on page index of close button to find the index in the routeArr that needs to be removed//
 	$('.close-button').off().on('click', function() {
-		console.log(routeArr);
 	remInd = $('.close-button').index($(this));
 	routeArr.splice(remInd, 1);
 	});
