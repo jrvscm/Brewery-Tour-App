@@ -4,6 +4,7 @@ let markers = [];
 let map;
 
 function getBreweryInfo(query) {
+	//needs proxy to complete requests to brewerydb due to github supporting only https//
 	$.ajax({
 		method: "GET",
 		url: `https://cors-anywhere.herokuapp.com/http://api.brewerydb.com/v2/locations`,
@@ -39,6 +40,7 @@ function renderBreweryVars(data, query) {
 }
 
 function getMapData() {
+	//makes request to goole maps for location and map services//
 	$.ajax({
 		method: "GET",
 		url: `https://maps.googleapis.com/maps/api/js?`,
@@ -77,6 +79,7 @@ function geocodeAddress(geocoder, resultsMap, query) {
 }
 
 function renderContentString(index, resultsMap) {
+	//sets up the info window content//
 	let contentString = `<div><p>${markers[index].breweryName}<br>
 							${markers[index].address}<br>
 							${markers[index].city}, 
@@ -92,7 +95,14 @@ function createInfoWindow(contentString, index, resultsMap) {
 }
 
 function renderMarker(infowindow, index, resultsMap) {
+	//creates the markers//
 	setTimeout(function() {
+		let icon = { 
+			url: "images/Beer-icon.png",
+			scaledSize:new google.maps.Size(50,50),
+			origin: new google.maps.Point(0,0),
+			anchor: new google.maps.Point(0,0,)
+		};
 		let marker = new google.maps.Marker({
 			map: resultsMap,
 			position: {
@@ -100,7 +110,8 @@ function renderMarker(infowindow, index, resultsMap) {
 				lng: markers[index].breweryLon
 			},
 			name: `${markers[index].breweryName}`,
-			animation: google.maps.Animation.DROP
+			animation: google.maps.Animation.DROP,
+			icon: icon
 		});
 		watchMarkerClick(marker, infowindow, resultsMap);
 		clearMap(marker);
@@ -108,6 +119,7 @@ function renderMarker(infowindow, index, resultsMap) {
 }
 
 function watchMarkerClick(marker, infowindow, resultsMap) {
+	//sets up event listeners for map interaction//
 	marker.addListener('mouseover', function() {
 		infowindow.open(resultsMap, marker);
 	});
@@ -164,6 +176,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 }
 
 function renderTourItem(breweryTitle) {
+	//sets up the tour items//
 	let tourItem = `<div class="tour-item">
 						<h2>${breweryTitle}<button class="close-button button"><i class="fa fa-times" aria-hidden="true"></i></button></h2>
 					</div>`;
@@ -176,6 +189,7 @@ function insertTourItem(tourItem) {
 }
 
 function removeTourItemFromRoute() {
+	//uses the on page index of close button to find the index in the routeArr that needs to be removed//
 	$('.close-button').off().on('click', function() {
 		console.log(routeArr);
 	remInd = $('.close-button').index($(this));
@@ -212,7 +226,6 @@ function watchSubmit() {
 		routeArr = [];
 		tour = [];
 		waypts = []
-		console.log('resets ran')
 		getBreweryInfo(query);
 		$('.tour').empty();
 		$('#query').val('');
