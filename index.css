@@ -83,7 +83,7 @@ input {
 	background-color: transparent;
 }
 #query {
-	outline-color: blue;
+	outline-color: white;
 }
 input::placeholder {
 	color: white;
