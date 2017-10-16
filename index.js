@@ -3,23 +3,24 @@ let tour = [];
 let markers = [];
 let map;
 
-function getBreweryInfo(query) {
+function getBreweryInfo(queryCity, queryReg) {
 	//needs proxy to complete requests to brewerydb due to github supporting only https//
 	$.ajax({
 		method: "GET",
 		url: `https://cors-anywhere.herokuapp.com/http://api.brewerydb.com/v2/locations`,
 		dataType: 'json',
 		data: {
-			locality: `${query}`,
+			locality: `${queryCity}`,
+			region: `${queryReg}`,
 			key: config.BREWERYDB_KEY
 		},
 		success: function(data) {
-			renderBreweryVars(data, query);
+			renderBreweryVars(data, queryCity, queryReg);
 		}
 	});
 }
 
-function renderBreweryVars(data, query) {
+function renderBreweryVars(data, queryCity, queryReg) {
 	if (data.data == undefined) {
 		alert(`Sorry, nothing was found for that location!`)
 	} else {
@@ -35,7 +36,7 @@ function renderBreweryVars(data, query) {
 			markers.push(breweryVals);
 		});
 		var geocoder = new google.maps.Geocoder();
-		geocodeAddress(geocoder, map, query);
+		geocodeAddress(geocoder, map, queryCity, queryReg);
 	}
 }
 
@@ -56,22 +57,25 @@ function getMapData() {
 
 function initMap(data) {
 	map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 14,
+		zoom: 15,
 	});
 }
 
-function geocodeAddress(geocoder, resultsMap, query) {
+function geocodeAddress(geocoder, resultsMap, queryCity, queryReg) {
 	geocoder.geocode({
-		'address': query
+		'address': `${queryCity},${queryReg}`
 	}, function(results, status) {
 		if (status === 'OK') {
 			resultsMap.setCenter(results[0].geometry.location);
 			markers.map((data, index) => {
 				renderContentString(index, resultsMap);
 			});
-		} else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+		} else if (status === 'OVER_QUERY_LIMIT') {
 			wait = true;
-			setTimeout("wait = true", 2000);
+			setTimeout("wait = true", 3000);
+		} else if (status === 'ZERO_RESULTS') {
+			wait = true;
+			setTimeout("wait = true", 3000);
 		} else {
 			alert('Geocode was not successful for the following reason: ' + status);
 		}
@@ -115,7 +119,7 @@ function renderMarker(infowindow, index, resultsMap) {
 		});
 		watchMarkerClick(marker, infowindow, resultsMap);
 		clearMap(marker);
-	}, index * 180);
+	}, index * 60);
 }
 
 function watchMarkerClick(marker, infowindow, resultsMap) {
@@ -166,9 +170,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 	}, function(response, status) {
 		if (status === 'OK') {
 			directionsDisplay.setDirections(response);
-		} else if (status == google.maps.Directions.OVER_QUERY_LIMIT) {
+		} else if (status === 'OVER_QUERY_LIMIT') {
 			wait = true;
-			setTimeout("wait = true", 2000);
+			setTimeout("wait = true", 3000);
+		} else if (status === 'ZERO_RESULTS') {
+			alert('Route could not be calculated.');
+			return;
 		} else {
 			window.alert('Directions request failed due to: ' + status);
 		}
@@ -215,7 +222,14 @@ function watchSubmit() {
 		event.preventDefault();
 		let query = $('#query').val();
 		if (query.length == 0) {
-			alert('Please enter a valid city name.');
+			alert('Please enter a valid City, State combination.');
+			return;
+		}
+		query = query.split(',');
+		let queryCity = query[0];
+		let queryReg = query[1];
+		if(queryReg.length <=3) {
+			alert('Invalid state format.');
 			return;
 		}
 		$('.form-container').removeClass('center').removeClass('tinted-image');
@@ -225,7 +239,7 @@ function watchSubmit() {
 		routeArr = [];
 		tour = [];
 		waypts = []
-		getBreweryInfo(query);
+		getBreweryInfo(queryCity, queryReg);
 		$('.tour').empty();
 		$('#query').val('');
 	});
