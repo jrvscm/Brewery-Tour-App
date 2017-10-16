@@ -2,6 +2,8 @@ let routeArr = [];
 let tour = [];
 let markers = [];
 let map;
+let queryReg;
+let queryCity;
 
 function getBreweryInfo(queryCity, queryReg) {
 	//needs proxy to complete requests to brewerydb due to github supporting only https//
@@ -101,11 +103,11 @@ function createInfoWindow(contentString, index, resultsMap) {
 function renderMarker(infowindow, index, resultsMap) {
 	//creates the markers//
 	setTimeout(function() {
-		let icon = { 
+		let icon = {
 			url: "images/Beer-icon.png",
-			scaledSize:new google.maps.Size(50,50),
-			origin: new google.maps.Point(0,0),
-			anchor: new google.maps.Point(0,0,)
+			scaledSize: new google.maps.Size(50, 50),
+			origin: new google.maps.Point(0, 0),
+			anchor: new google.maps.Point(0, 0, )
 		};
 		let marker = new google.maps.Marker({
 			map: resultsMap,
@@ -198,10 +200,9 @@ function insertTourItem(tourItem) {
 function removeTourItemFromRoute() {
 	//uses the on page index of close button to find the index in the routeArr that needs to be removed//
 	$('.close-button').off().on('click', function() {
-	remInd = $('.close-button').index($(this));
-	routeArr.splice(remInd, 1);
+		remInd = $('.close-button').index($(this));
+		routeArr.splice(remInd, 1);
 	});
-
 	removeTourItemFromTour();
 }
 
@@ -217,29 +218,88 @@ function clearMap(marker) {
 	});
 }
 
+function convertStateAbbr() {
+	const states = [
+		['Arizona', 'AZ'],
+		['Alabama', 'AL'],
+		['Alaska', 'AK'],
+		['Arkansas', 'AR'],
+		['California', 'CA'],
+		['Colorado', 'CO'],
+		['Connecticut', 'CT'],
+		['Delaware', 'DE'],
+		['Florida', 'FL'],
+		['Georgia', 'GA'],
+		['Hawaii', 'HI'],
+		['Idaho', 'ID'],
+		['Illinois', 'IL'],
+		['Indiana', 'IN'],
+		['Iowa', 'IA'],
+		['Kansas', 'KS'],
+		['Kentucky', 'KY'],
+		['Louisiana', 'LA'],
+		['Maine', 'ME'],
+		['Maryland', 'MD'],
+		['Massachusetts', 'MA'],
+		['Michigan', 'MI'],
+		['Minnesota', 'MN'],
+		['Mississippi', 'MS'],
+		['Missouri', 'MO'],
+		['Montana', 'MT'],
+		['Nebraska', 'NE'],
+		['Nevada', 'NV'],
+		['New Hampshire', 'NH'],
+		['New Jersey', 'NJ'],
+		['New Mexico', 'NM'],
+		['New York', 'NY'],
+		['North Carolina', 'NC'],
+		['North Dakota', 'ND'],
+		['Ohio', 'OH'],
+		['Oklahoma', 'OK'],
+		['Oregon', 'OR'],
+		['Pennsylvania', 'PA'],
+		['Rhode Island', 'RI'],
+		['South Carolina', 'SC'],
+		['South Dakota', 'SD'],
+		['Tennessee', 'TN'],
+		['Texas', 'TX'],
+		['Utah', 'UT'],
+		['Vermont', 'VT'],
+		['Virginia', 'VA'],
+		['Washington', 'WA'],
+		['West Virginia', 'WV'],
+		['Wisconsin', 'WI'],
+		['Wyoming', 'WY'],
+	];
+	for (let i = 0; i < states.length; i++) {
+		if (states[i][1] === queryReg) {
+			queryReg = states[i][0];
+		}
+	}
+	getBreweryInfo(queryCity, queryReg);
+}
+
 function watchSubmit() {
 	$('.form-container').on('click touch', '#search-button', event => {
 		event.preventDefault();
 		let query = $('#query').val();
-		if (query.length == 0) {
-			alert('Please enter a valid City, State combination.');
+		if (query.length == 0 || query.indexOf(',') == -1) {
+			alert('Please enter a valid City, State combination separated by a comma. Example: "Billings, Montana" or "Billings, MT"');
 			return;
 		}
+		query = query.replace(/ /g, '');
+		query = query.toUpperCase();
 		query = query.split(',');
-		let queryCity = query[0];
-		let queryReg = query[1];
-		if(queryReg.length <=3) {
-			alert('Invalid state format.');
-			return;
-		}
+		queryCity = query[0];
+		queryReg = query[1];
 		$('.form-container').removeClass('center').removeClass('tinted-image');
 		$('.form-container p').removeClass('hidden');
 		$('h1').css('font-size', '3rem');
 		markers = [];
 		routeArr = [];
 		tour = [];
-		waypts = []
-		getBreweryInfo(queryCity, queryReg);
+		waypts = [];
+		convertStateAbbr();
 		$('.tour').empty();
 		$('#query').val('');
 	});
