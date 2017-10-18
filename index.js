@@ -273,8 +273,6 @@ function convertStateAbbr(queryReg) {
 	let region = queryReg.replace(/ /g, '');
 	for (let i = 0; i < states.length; i++) {
 		if (states[i][1] === region) {
-			console.log(states[i][1])
-			console.log(states[i][0])
 			region = states[i][0];
 		}
 	}
