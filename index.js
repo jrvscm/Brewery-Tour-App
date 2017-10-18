@@ -2,10 +2,9 @@ let routeArr = [];
 let tour = [];
 let markers = [];
 let map;
-let queryReg;
 let queryCity;
 
-function getBreweryInfo(queryCity, queryReg) {
+function getBreweryInfo(queryCity, region) {
 	//needs proxy to complete requests to brewerydb due to github supporting only https//
 	$.ajax({
 		method: "GET",
@@ -13,16 +12,16 @@ function getBreweryInfo(queryCity, queryReg) {
 		dataType: 'json',
 		data: {
 			locality: `${queryCity}`,
-			region: `${queryReg}`,
+			region: `${region}`,
 			key: config.BREWERYDB_KEY
 		},
 		success: function(data) {
-			renderBreweryVars(data, queryCity, queryReg);
+			renderBreweryVars(data, queryCity, region);
 		}
 	});
 }
 
-function renderBreweryVars(data, queryCity, queryReg) {
+function renderBreweryVars(data, queryCity, region) {
 	if (data.data == undefined) {
 		alert(`Sorry, nothing was found for that location!`)
 	} else {
@@ -38,7 +37,7 @@ function renderBreweryVars(data, queryCity, queryReg) {
 			markers.push(breweryVals);
 		});
 		var geocoder = new google.maps.Geocoder();
-		geocodeAddress(geocoder, map, queryCity, queryReg);
+		geocodeAddress(geocoder, map, queryCity, region);
 	}
 }
 
@@ -63,9 +62,9 @@ function initMap(data) {
 	});
 }
 
-function geocodeAddress(geocoder, resultsMap, queryCity, queryReg) {
+function geocodeAddress(geocoder, resultsMap, queryCity, region) {
 	geocoder.geocode({
-		'address': `${queryCity},${queryReg}`
+		'address': `${queryCity},${region}`
 	}, function(results, status) {
 		if (status === 'OK') {
 			resultsMap.setCenter(results[0].geometry.location);
@@ -218,7 +217,7 @@ function clearMap(marker) {
 	});
 }
 
-function convertStateAbbr() {
+function convertStateAbbr(queryReg) {
 	const states = [
 		['Arizona', 'AZ'],
 		['Alabama', 'AL'],
@@ -271,12 +270,15 @@ function convertStateAbbr() {
 		['Wisconsin', 'WI'],
 		['Wyoming', 'WY'],
 	];
+	let region = queryReg.replace(/ /g, '');
 	for (let i = 0; i < states.length; i++) {
-		if (states[i][1] === queryReg) {
-			queryReg = states[i][0];
+		if (states[i][1] === region) {
+			console.log(states[i][1])
+			console.log(states[i][0])
+			region = states[i][0];
 		}
 	}
-	getBreweryInfo(queryCity, queryReg);
+	getBreweryInfo(queryCity, region);
 }
 
 function watchSubmit() {
@@ -287,11 +289,10 @@ function watchSubmit() {
 			alert('Please enter a valid City, State combination separated by a comma. Example: "Billings, Montana" or "Billings, MT"');
 			return;
 		}
-		query = query.replace(/ /g, '');
 		query = query.toUpperCase();
 		query = query.split(',');
 		queryCity = query[0];
-		queryReg = query[1];
+		let queryReg = query[1];
 		$('.form-container').removeClass('center').removeClass('tinted-image');
 		$('.form-container p').removeClass('hidden');
 		$('h1').css('font-size', '3rem');
@@ -299,7 +300,7 @@ function watchSubmit() {
 		routeArr = [];
 		tour = [];
 		waypts = [];
-		convertStateAbbr();
+		convertStateAbbr(queryReg);
 		$('.tour').empty();
 		$('#query').val('');
 	});
